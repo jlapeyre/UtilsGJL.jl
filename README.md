@@ -1,7 +1,15 @@
 # UtilsGJL
 
-[![Build Status](https://travis-ci.org/jlapeyre/UtilsGJL.jl.svg?branch=master)](https://travis-ci.org/jlapeyre/UtilsGJL.jl)
+See the docstrings for the functions below.
 
-[![Coverage Status](https://coveralls.io/repos/jlapeyre/UtilsGJL.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/jlapeyre/UtilsGJL.jl?branch=master)
+## Functions
 
-[![codecov.io](http://codecov.io/github/jlapeyre/UtilsGJL.jl/coverage.svg?branch=master)](http://codecov.io/github/jlapeyre/UtilsGJL.jl?branch=master)
+### equalelements
+
+### allkeysequal
+
+### countmaptypes
+
+### countmapvalues
+
+### countmapnumvalues
