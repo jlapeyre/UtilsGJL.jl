@@ -10,8 +10,8 @@ export rgbtohex
     equalelements(a,b)
 
 Returns `true` if `a` and `b` are element-wise equal, using `==`.
-For arrays, this is equivalent to `a == b`. But, a method for `==` does
-not exist for some iterators.
+For arrays, this is equivalent to `a == b`. But, for some iterators
+a method for `==` is not defined.
 
 `equalelements` should give the same result as `collect(a) == collect(b)`,
 but perhaps do it more efficiently as it avoids allocation.
@@ -22,7 +22,6 @@ function equalelements(a,b)
     end
     return true
 end
-
 
 """
     allkeysequal(a::AbstractArray)::Bool
@@ -116,7 +115,7 @@ function Base.isapprox(l::Associative, r::Associative)
 end
 
 """
-    rgbtohexa(r::Integer, g::Integer, b::Integer)
+    rgbtohex(r::Integer, g::Integer, b::Integer)
 
 convert rgb color to hex format.
 """
