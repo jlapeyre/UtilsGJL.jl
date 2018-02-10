@@ -1,4 +1,21 @@
 """
+    keepkeys(dict::AbstractDict, keylist::AbstractArray)
+
+Return a copy of `dict` keeping only keys in `keylist`.
+It makes sense to broadcast over the first argument more than
+it does the second, but this does not work at the moment.
+"""
+function keepkeys(dict::AbstractDict, keylist::AbstractArray)
+    T = typeof(dict)
+    T(k => dict[k] for k in keylist)
+end
+
+function keepkeys(dict::AbstractDict, T::DataType, keylist::AbstractArray)
+    T(k => dict[k] for k in keylist)
+end
+
+
+"""
     arraytodict(arr, pkey; dicttype=Dict)
 
 Construct a Dict of Arrays from the array of Dicts `arr`,

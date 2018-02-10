@@ -1,4 +1,17 @@
 """
+    truncfloat(x::Real, ndigits=3)
+
+truncate all but the last `ndigits` digits to the
+right of the decimal point in `x`.
+"""
+function truncfloat(x::Real, ndigits=3)
+    xf = float(x)
+    fac = 10^ndigits
+    round(Int,xf*fac)/fac
+end
+
+
+"""
     merge1!(d::AbstractDict, others::AbstractArray{AbstractDict})
 
 The same as `merge!`, except that `others` is an array of `AbstractDict`s.
@@ -34,6 +47,7 @@ end
     nonuniquecount(itr)
 
 Returns the number of nonunique values in `itr`.
+This is no more efficient than `length(nonunique(itr))`.
 """
 function nonuniquecount(a::AbstractArray{T}) where {T}
     d = Dict{T,Int}()
@@ -157,6 +171,8 @@ to the set of keys of each of the other elements.
 #function check_key_consistency(a::AbstractArray{AbstractDict}) #  AbstractArray{Any} also works here
 function allkeysequal(a::AbstractArray)
     length(a) == 0 && return false
+    len = length(a[1])
+    all(x -> length(x) == len, a) || return false    
     ks = keys(a[1])
     for (i,obj) in enumerate(a)
         equalelements(keys(obj),  ks)  || return false
