@@ -7,22 +7,21 @@ A collection of miscellaneous utilities.
 
 EXPORTED FUNCTIONS:
 
-`nonunique`, `nonuniquecount`, `merge1`, `merge1!`,
-`keepkeys`, `equalelements`, `allkeysequal`, `countmaptypes`, `countmapvalues`, `sortcountmap`,
-`mapdictcol`, `foreachdict`
-
+`nonunique`, `nonuniquecount`, `merge1`, `merge1!`, `subst!`, `append`, `arrcountmap`,
+`keepkeys`, `arraytodict`, `equalelements`, `allkeysequal`, `countmaptypes`, `countmapvalues`, `sortcountmap`,
+`mapdictcol`, `foreachdict`, `compactstring`,
 `truncfloat`, `rgbtohex`, `hoursfloat`
 """
 module UtilsGJL
 
 using Compat
-import DataStructures
+using DataStructures
 using StatsBase
 #using StatsBase: countmap
 
-export keepkeys, hoursfloat
+export keepkeys, arraytodict, hoursfloat
 export equalelements, allkeysequal, countmaptypes, countmapvalues, countmapnumvalues, countmaptypenumvalues
-export truncfloat
+export truncfloat, subst!, append, arrcountmap
 export foreachdict
 export merge1, merge1!, nonunique, nonuniquecount
 export rgbtohex

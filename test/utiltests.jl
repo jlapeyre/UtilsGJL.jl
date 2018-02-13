@@ -11,3 +11,8 @@ end
 
 @test rgbtohex(1,1,1) == "#010101"
 
+let
+    d = Dict( ["a","b"] => 1, ["b", "c"] => 2 )
+    @test arrcountmap(keys(d),values(d)).map == Dict("c"=>2,"b"=>3,"a"=>1)
+    @test arrcountmap(d).map == Dict("c"=>2,"b"=>3,"a"=>1)
+end
