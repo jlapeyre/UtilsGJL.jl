@@ -1,4 +1,30 @@
 """
+    writeloghist(fname,data;opts...)
+
+Write a log-scaled histogram to a the file `fname`.
+"""
+function writeloghist(fname,data;opts...)
+    x,y = loghistogram(data;opts...)
+    x1 = truncfloat.(x,1)
+    writedlm(fname,zip(x1,y)," ")
+end
+
+
+"""
+    loghistogram(data;opts...)
+
+Returns a tuple, the coordinate and the ordinates for a log scale
+histogram. `opts...` are passed to `fit(Histogram,...`.
+The output `res` can be written to a file with `writedlm("f.txt",zip(res...))`.
+This function is in lieu of a proper log-scaled histogram.
+"""
+function loghistogram(data;opts...)
+    hist = fit(Histogram,log.(data); opts..., closed=:left)
+    collect(exp.((hist.edges)[1])), hist.weights
+end
+
+
+"""
     append(a::Vector)::Vector
 
 Flatten a vector of vectors, all of the same
