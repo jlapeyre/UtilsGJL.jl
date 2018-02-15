@@ -16,15 +16,14 @@ EXPORTED FUNCTIONS:
 """
 module UtilsGJL
 
-using Compat
+# The following works in some situations, at the cost of loading
+# DataFrames.
 
-if isdefined(Main,:nonunique)
-    import Main: nonunique
+if isdefined(Main,:DataFrames)
+     import DataFrames: nonunique
 end
 
-# if isdefined(Main,:DataFrames)
-#     import DataFrames: nonunique
-# end
+using Compat
 
 using DataStructures
 using StatsBase
@@ -37,10 +36,6 @@ export merge1, merge1!, nonunique, nonuniquecount
 export rgbtohex
 export sortcountmap, mapdictcol
 export longdisplay,ld
-
-if isdefined(:DataFrames)
-    import DataFrames: nonunique
-end
 
 include("datastructures.jl")
 include("strings.jl")
