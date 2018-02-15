@@ -46,7 +46,7 @@ end
 """
     nonuniquecount(itr)
 
-Returns the number of nonunique values in `itr`.
+Return the number of nonunique values in `itr`.
 This is no more efficient than `length(nonunique(itr))`.
 """
 function nonuniquecount(a::AbstractArray{T}) where {T}
@@ -69,23 +69,31 @@ end
 """
     nonunique(itr)
 
-Returns an array containing one value from `itr` for each nonunique value.
+Return an array containing one value from `itr` for each nonunique value.
 """
 function nonunique(a::AbstractArray{T}) where {T}
-    d = Dict{T,Int}()
-    nu = Vector{T}()
+    seen = Dict{T,Int}()
+    out = Vector{T}()
     for x in a
-        if haskey(d,x)
-            d[x] += 1
-            if d[x] == 2
-                push!(nu,x)
-            end
+        if haskey(seen,x)
+            seen[x] += 1
+            seen[x] == 2 && push!(out,x)
         else
-            d[x] = 1
+            seen[x] = 1
         end
     end
-    nu
+    return out
 end
+# Above is faster than below, for at least some tests
+# function nonunique(a::AbstractArray{T}) where {T}
+#     d = DataStructures.counter(T)
+#     nu = Vector{T}()
+#     @inbounds for x in a
+#         push!(d,x)
+#         d[x] == 2 && push!(nu,x)
+#     end
+#     nu
+# end
 
 
 """
@@ -111,6 +119,7 @@ end
 Equivalent to `foreachdict(f,keys(itr),values(itr))`.
 
 # Example
+
 ```jldoctest
 julia> d = Dict(:a=>1, :b=>2);
 
@@ -147,7 +156,7 @@ foreachdict(f) = foreach(f)
 """
     equalelements(a,b)
 
-Returns `true` if `a` and `b` are element-wise equal, using `==`.
+Return `true` if `a` and `b` are element-wise equal, using `==`.
 For arrays, this is equivalent to `a == b`. But, for some iterators
 a method for `==` is not defined.
 
@@ -165,7 +174,7 @@ end
 """
     allkeysequal(a::AbstractArray)::Bool
 
-Returns `true` only if all elements of `a` have keys and the set of keys of the first element of `a` is identical
+Return `true` only if all elements of `a` have keys and the set of keys of the first element of `a` is identical
 to the set of keys of each of the other elements.
 """
 #function check_key_consistency(a::AbstractArray{AbstractDict}) #  AbstractArray{Any} also works here
@@ -180,15 +189,24 @@ function allkeysequal(a::AbstractArray)
     return true
 end
 
-
 """
-    countmaptypes(a::Array)
+    countmaptypes(arr::Array)
 
-returns a count map of the value types for each key in elements of `a`.
-
-`a` is an array of objects of type `AbstractDict` with identical keys.
+Return a count map of thee types of elements in `arr`
 """
 function countmaptypes(arr::Array)
+    typelist = [typeof(x) for x in arr]
+    StatsBase.countmap(typelist)    
+end
+
+"""
+    countmaptypes(arr::Array{T}) where T <: AbstractDict
+
+Return a count map of the value types for each key in elements of `arr`.
+
+`arr` is an array of objects of type `AbstractDict` with identical keys.
+"""
+function countmaptypes(arr::Array{T}) where T <: AbstractDict
     type_counts = DataStructures.OrderedDict{String,Dict}()
     length(arr) < 1 && return type_counts
     keylist = collect(keys(arr[1]))
@@ -223,7 +241,7 @@ countmapnumvalues(arr::AbstractArray, dicttype) = dicttype( k => length(countmap
 """
     countmaptypenumvalues(arr::AbstractArray)
 
-Returns a `AbstractDict` object whos values for each key are a tuple of
+Return a `AbstractDict` object whos values for each key are a tuple of
 the corresponding values returned by `countmaptypes` and `countmapnumvalues`.
 """
 function countmaptypenumvalues(arr::AbstractArray)
@@ -237,7 +255,7 @@ end
 """
     isapprox(l::AbstractDict, r::AbstractDict)
 
-Returns true if `l` and `r` have approximately the same
+Return true if `l` and `r` have approximately the same
 keys and values.
 """
 function Base.isapprox(l::AbstractDict, r::AbstractDict)
