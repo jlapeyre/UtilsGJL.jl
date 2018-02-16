@@ -14,10 +14,10 @@ Return a compact string representation of `d`.
 Example:
 ```
 compactstring(Dict(Void=>46,Float64=>21,Int64=>18))
-"Void=>46,Float64=>21,Int64=>18"
+"Void:46,Float64:21,Int64:18"
 ```
 """
-compactstring(d::AbstractDict) = join([string(x[1] , "=>", x[2]) for x in d], ",")
+compactstring(d::AbstractDict) = join([string(x[1] , ":", x[2]) for x in d], ",")
 
 """
     compactstring(::Array{String})
