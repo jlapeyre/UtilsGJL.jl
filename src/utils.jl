@@ -19,7 +19,7 @@ This is far more efficient when the length of `others` is large.
 """
 function merge1!(d::AbstractDict, others::AbstractArray{T}) where T <: AbstractDict
     for other in others
-        for (k,v) in other
+        @inbounds for (k,v) in other
             d[k] = v
         end
     end
@@ -52,7 +52,7 @@ This is no more efficient than `length(nonunique(itr))`.
 function nonuniquecount(a::AbstractArray{T}) where {T}
     d = Dict{T,Int}()
     nucount = 0
-    for x in a
+    @inbounds for x in a
         if haskey(d,x)
             d[x] += 1
             if d[x] == 2
