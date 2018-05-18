@@ -55,7 +55,7 @@ end
 """
     readlinebytes(stream::IO=STDIN; chomp::Bool=false)
 
-Warning: If `chomp` is true, an error may be raised. For instance 
+Warning: If `chomp` is true, an error may be raised. For instance
 on reading the first (but not subsequent) lines from a file.
 Read an array of bytes terminated by '\n' from `stream`.  Lines in the
 input end with '\n' or "\r\n" or the end of an input stream. When
@@ -125,6 +125,27 @@ function countsubstrings(where::String, what::String)
         starting = location.stop + 1
     end
 end
+
+"""
+    countsubstrings(where::String, what::String)
+
+Count the number of occurrences of `what` in `where`. This
+is copied from discourse or stackexchange.
+"""
+function allstringmatch(where::String, what)
+    numfinds = 0
+    starting = 1
+    res = String[]
+    while true
+        location = search(where, what, starting)
+        isempty(location) && return break
+        push!(res,where[location])
+        numfinds += 1
+        starting = location.stop + 1
+    end
+    return res
+end
+
 
 
 # end # module

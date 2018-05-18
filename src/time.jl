@@ -10,9 +10,16 @@ mstodays(t) = t |> mstohrs |> hrstodays
 mstoyears(t) = t |> mstodays |> daystoyears
 
 """
+    secondsfloat(t::Dates.Millisecond)::Float64
+
+Convert `t` to seconds.
+"""
+secondsfloat(t::Dates.Millisecond)::Float64 = t.value |> mstosec
+
+"""
     minutesfloat(t::Dates.Millisecond)::Float64
 
-Convert `t` to minutes
+Convert `t` to minutes.
 """
 minutesfloat(t::Dates.Millisecond)::Float64 = t.value |> mstomin
 

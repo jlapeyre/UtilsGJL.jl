@@ -12,7 +12,8 @@ EXPORTED FUNCTIONS:
 `foreachdict`, `compactstring`,
 `truncfloat`, `rgbtohex`, `hoursfloat`, `daysfloat`, `yearsfloat`, `minutesfloat`,
 `loghistogram`, `writeloghist`,
-`longdisplay`,`ld`, `alldocs`
+`longdisplay`,`ld`, `alldocs`,
+`@withw`
 """
 module UtilsGJL
 
@@ -37,6 +38,7 @@ export rgbtohex
 export sortcountmap
 export longdisplay,ld
 export alldocs
+export @withw
 
 include("datastructures.jl")
 include("strings.jl")

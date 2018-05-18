@@ -1,7 +1,8 @@
 ## Source: Dan Getz https://stackoverflow.com/questions/44166177/julia-list-docstrings-inside-a-module
 
+# Note: `isdefined` here is a workaround for a bug
 # check if a symbol is a nested module
-issubmodule(m::Module, s::Symbol) = isa(eval(m,s),Module) && module_name(m) != s
+issubmodule(m::Module, s::Symbol) = isdefined(m,s) && isa(eval(m,s),Module) && module_name(m) != s
 
 # get a list of all submodules of module m
 submodules(m) = filter(x->issubmodule(m,x),names(m,true))
@@ -16,10 +17,11 @@ function getalldocs(m)
     return vcat(thedocs,map(x->alldocs(eval(m,x)),submodules(m))...)
 end
 
+# Note: this test for Void is a workaround for a bug
 function _findtypes(docs,thetype::DataType)
-    inds = find(x->isa(eval(docs[1].meta[:binding].mod,x.meta[:binding].var),thetype),docs)
-    return(docs[inds], inds)
-end 
+    inds = find(x -> !isa(x,Void) && isa(eval(docs[1].meta[:binding].mod,x.meta[:binding].var),thetype) , docs)
+    return inds
+end
 
 printcategory(items) = foreach( x -> (display(x), print_with_color(:bold, "\n" * "-"^40 * "\n\n")), items)
 
@@ -27,22 +29,26 @@ printcategory(items) = foreach( x -> (display(x), print_with_color(:bold, "\n" *
     alldocs(amodule)
 
 Display all the docstrings in module `amodule`.
+This is not perfect.
 """
 function alldocs(amodule)
-    docs = getalldocs(amodule)
+    docs = reverse!(getalldocs(amodule))
     allinds = collect(1:length(docs))
-    (modules, inds1) = _findtypes(docs,Module)
-    (functions,inds2) = _findtypes(docs,Function)
-    (types,inds3) = _findtypes(docs,DataType)
-    varinds = setdiff(allinds,vcat(inds1,inds2,inds3))
-    data = docs[varinds]
-    print_with_color(:bold, "MODULES\n\n")
+    indsmodules = _findtypes(docs,Module)
+    indsfunctions0 = _findtypes(docs,Function)
+    indstypes = _findtypes(docs,DataType)
+    indsfunctions = setdiff(indsfunctions0, indstypes) # Constructors of types are together with types
+    indsvars = setdiff(allinds,vcat(indsmodules,indsfunctions,indstypes))
+
+    (modules,types,functions,data) = ([docs[x] for x in (indsmodules, indstypes, indsfunctions, indsvars)]...,)
+
+    print_with_color(:bold, "MODULE ")
+    print_with_color(:bold, modules[1].meta[:binding], "\n\n")
     printcategory(modules)
     print_with_color(:bold, "\nTYPES\n\n")
     printcategory(types)
     print_with_color(:bold, "\nFUNCTIONS\n\n")
     printcategory(functions)
     print_with_color(:bold, "\nDATA\n\n")
-    printcategory(data)    
+    printcategory(data)
 end
-

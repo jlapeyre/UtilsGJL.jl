@@ -13,7 +13,7 @@ function foreachdict(f,itrs...)
         end
     end
     foreach(f,a...)
-end    
+end
 
 foreachdict(f) = foreach(f)
 

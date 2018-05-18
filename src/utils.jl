@@ -39,7 +39,7 @@ must be compatible with this choice.
 """
 function merge1(ds::AbstractArray{T}) where T <: AbstractDict
     t = eltype(ds)
-    merge1!(t(),ds)    
+    merge1!(t(),ds)
 end
 
 
@@ -148,7 +148,7 @@ function foreachdict(f,itrs...)
         end
     end
     foreach(f,a...)
-end    
+end
 
 foreachdict(f) = foreach(f)
 
@@ -181,7 +181,7 @@ to the set of keys of each of the other elements.
 function allkeysequal(a::AbstractArray)
     length(a) == 0 && return false
     len = length(a[1])
-    all(x -> length(x) == len, a) || return false    
+    all(x -> length(x) == len, a) || return false
     ks = keys(a[1])
     for (i,obj) in enumerate(a)
         equalelements(keys(obj),  ks)  || return false
@@ -192,11 +192,11 @@ end
 """
     countmaptypes(arr::Array)
 
-Return a count map of thee types of elements in `arr`
+Return a count map of the types of elements in `arr`
 """
 function countmaptypes(arr::Array)
     typelist = [typeof(x) for x in arr]
-    StatsBase.countmap(typelist)    
+    StatsBase.countmap(typelist)
 end
 
 """
