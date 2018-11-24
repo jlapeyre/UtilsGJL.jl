@@ -1,4 +1,4 @@
 using UtilsGJL
-using Base.Test
+using Test
 
 include("utiltests.jl")
