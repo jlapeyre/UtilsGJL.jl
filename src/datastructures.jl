@@ -154,3 +154,10 @@ function arraytodict(arr::AbstractArray, pkey; dicttype=Dict)
     end
     return dout
 end
+
+"""
+    fields(x)
+
+Unpack the fields in struct `x` into a `Tuple`.
+"""
+fields(x) = ((getfield(x, field) for field in fieldnames(typeof(x)))...,)
