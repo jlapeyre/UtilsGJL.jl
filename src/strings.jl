@@ -3,9 +3,6 @@
 export readbytes, readlinebytes, filter_non_ascii, count_non_ascii, countsubstrings,
     compactstring
 
-
-
-
 """
     compactstring(d::AbstractDict)
 
@@ -27,15 +24,6 @@ This just joins the strings with a comma.
 """
 compactstring(a::Array{T}) where T <: AbstractString = join(a,",")
 
-# Julia core file reading is in flux and not well documented.
-# most of this stuff is not necessary.
-
-# function readbytes(filename::AbstractString)
-#     numbytes = filesize(filename)
-#     b = Array{UInt8,1}()
-#     open(f -> readbytes!(f, b, numbytes), filename)
-#     return b
-# end
 
 """
     readbytes(filename::AbstractString, numbytes=0)
@@ -74,24 +62,6 @@ function readlinebytes(s::IO=STDIN; chomp::Bool=false)
         return resize!(line,i-2)
     end
 end
-
-
-# This causes warnings. It is defined elsewhere
-# """
-#     isascii(a::AbstractArray{UInt8})
-
-# returns `true` if all bytes in `a` are valid ASCII codes.
-# """
-# Base.isascii(a::AbstractArray{UInt8}) = all(c -> isascii(Char(c)), a)
-
-
-# """
-#     isascii(c::UInt8)
-
-# returns `true` if `c` is a valid ASCII code.
-# """
-# Base.isascii(c::UInt8) = Char(c) |> isascii
-
 
 """
     filter_non_ascii(s)
@@ -145,7 +115,5 @@ function allstringmatch(where::String, what)
     end
     return res
 end
-
-
 
 # end # module
