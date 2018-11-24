@@ -277,4 +277,4 @@ end
 
 convert rgb color to hex format.
 """
-rgbtohex(r::Integer, g::Integer, b::Integer) =  "#" * string( hex.( (r,g,b), 2 )...)
+rgbtohex(r::Integer, g::Integer, b::Integer) =  "#" * string(string.((r,g,b), base=16, pad=2)...)
