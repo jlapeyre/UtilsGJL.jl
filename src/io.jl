@@ -33,9 +33,10 @@ julia> @withw println("outfile.txt", "hello")
 """
 macro withw(fcall)
     (fn,fcall.args[2]) = (fcall.args[2],:io)
+    a = fcall.args
     quote
-        open($fn,"w") do io
-            $(fcall)
+        open($(esc(fn)),"w") do io
+            $(esc(a[1]))(io, ($a[3:end]...))
         end
     end
 end
