@@ -1,0 +1,20 @@
+name = "UtilsGJL"
+uuid = "35bcaea0-5488-11ea-307c-259d5d8b0062"
+authors = ["John Lapeyre <jlapeyre@users.noreply.github.com>"]
+version = "0.0.1"
+
+[deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
+
+[compat]
+julia = "1"
+StatsBase = "0.32"
+DataStructures = "0.17"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

@@ -43,6 +43,7 @@ include("utils.jl")
 include("time.jl")
 include("io.jl")
 include("docs.jl")
-include("sparse.jl")
+# FIXME: This file is lost somewhere
+#include("sparse.jl")
 
 end # module UtilsGJL
