@@ -32,14 +32,12 @@ eltype.
 """
 # Don't restrict the input type, so we can use iterators.
 function append(a)::Vector
-    tp = eltype(a[1])
-    vout = tp[]
-    for x in a
-        for y in x
-            push!(vout,y)
-        end
+    typ = eltype(a[1])
+    vout = typ[]
+    for x in a, y in x
+        push!(vout, y)
     end
-    vout
+    return vout
 end
 
 """
@@ -62,13 +60,13 @@ DataStructures.Accumulator{String,Int64} with 3 entries:
 """
 # This allows iterators for `a1` and `a2` to be used
 function arrcountmap(a1, a2)::DataStructures.Accumulator
-    acc = counter(a1 |> eltype |> eltype)
-    for (teams,nclicks) in zip(a1,a2)
-        for team in teams
-            push!(acc,team,nclicks)
+    acc = DataStructures.counter(a1 |> eltype |> eltype)
+    for (items, counts) in zip(a1,a2)
+        for item in items
+            push!(acc, item, counts)
         end
     end
-    acc
+    return acc
 end
 
 """
@@ -78,44 +76,31 @@ Pass the keys and values of `d` as the two arrays to `arrcountmap`.
 """
 arrcountmap(d::AbstractDict) = arrcountmap(keys(d),values(d))
 
-# Catches errors, but prevents iterators from working
-# function arrcountmap(a1::Vector, a2::Vector{T})::DataStructures.Accumulator where T<:Integer
-#     acc = counter(a1 |> eltype |> eltype)
-#     for (teams,nclicks) in zip(a1,a2)
-#         for team in teams
-#             push!(acc,team,nclicks)
-#         end
-#     end
-#     acc
-# end
-
-
 """
-    subst!(arr,from,to)::Void
+    subst!(arr, from, to)::Void
 
 Substitute each occurrence of `from` in the values of collection `arr` with `to`.
 """
-function subst!(arr,from,to)::Void
+function subst!(arr, from, to)::Void
     for i in linearindices(arr)
-    @inbounds  if arr[i] == from
+    @inbounds if arr[i] == from
             arr[i] = to
         end
     end
 end
 
 """
-    subst!(d::AbstractDict,from,to)::Void
+    subst!(d::AbstractDict, from, to)::Void
 
 Substitute each occurrence of `from` in the values of `d` with `to`.
 """
-function subst!(d::AbstractDict,from,to)::Void
-    for (k,v) in d
-         if d[k] == from
+function subst!(d::AbstractDict, from, to)::Void
+    for (k, v) in d
+        if d[k] == from
             d[k] = to
         end
     end
 end
-
 
 """
     keepkeys(dict::AbstractDict, keylist::AbstractArray)

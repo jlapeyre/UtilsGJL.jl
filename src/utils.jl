@@ -5,9 +5,8 @@ truncate all but the last `ndigits` digits to the
 right of the decimal point in `x`.
 """
 function truncfloat(x::Real, ndigits=3)
-    xf = float(x)
     fac = 10^ndigits
-    round(Int,xf*fac)/fac
+    round(Int, float(x) * fac) / fac
 end
 
 
@@ -114,9 +113,9 @@ function sortcountmap(arr; byvalue=true,rev=true)
 end
 
 """
-    foreachdict(f,itr::AbstractDict)
+    foreachdict(f, itr::AbstractDict)
 
-Equivalent to `foreachdict(f,keys(itr),values(itr))`.
+Equivalent to `foreachdict(f, keys(itr), values(itr))`.
 
 # Example
 
@@ -128,13 +127,13 @@ a1
 b2
 ```
 """
-foreachdict(f,itr::AbstractDict) = foreach(f,keys(itr),values(itr))
+foreachdict(f, itr::AbstractDict) = foreach(f,keys(itr),values(itr))
 
 
 """
-    function foreachdict(f,itrs...)
+    function foreachdict(f, itrs...)
 
-Equivalent to `foreach(f,itrs...)`, except that each element `itr` of
+Equivalent to `foreach(f, itrs...)`, except that each element `itr` of
 `itrs` that is a subtype of `AbstractDict` is replaced with `keys(itr), values(itr)`.
 """
 function foreachdict(f,itrs...)
@@ -273,8 +272,8 @@ function Base.isapprox(l::AbstractDict, r::AbstractDict)
 end
 
 """
-    rgbtohex(r::Integer, g::Integer, b::Integer)
+    rgbtohex(r::Integer, g::Integer, b::Integer):String
 
 convert rgb color to hex format.
 """
-rgbtohex(r::Integer, g::Integer, b::Integer) =  "#" * string(string.((r,g,b), base=16, pad=2)...)
+rgbtohex(r::Integer, g::Integer, b::Integer)::String =  "#" * string(string.((r,g,b), base=16, pad=2)...)

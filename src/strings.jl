@@ -79,6 +79,11 @@ count number of non-ascii characters in string `s::String`, or non-ascii bytes i
 count_non_ascii(str::AbstractString) =  count(c -> ! isascii(c), str)
 count_non_ascii(a::AbstractArray) =  count(c -> ! isascii(Char(c)), a)
 
+# FIXME: broken
+_search(t, s, starting) = something(findfirst(t, s), starting:-1)
+
+
+# FIXME: broken
 """
     countsubstrings(where::String, what::String)
 
@@ -89,25 +94,25 @@ function countsubstrings(where::String, what::String)
     numfinds = 0
     starting = 1
     while true
-        location = search(where, what, starting)
+        location = _search(where, what, starting)
         isempty(location) && return numfinds
         numfinds += 1
         starting = location.stop + 1
     end
 end
 
+# FIXME: broken
 """
-    countsubstrings(where::String, what::String)
+    allstringmatch(where::String, what::String)
 
-Count the number of occurrences of `what` in `where`. This
-is copied from discourse or stackexchange.
+Return an array of each occurrence of `what` in `where`.
 """
 function allstringmatch(where::String, what)
     numfinds = 0
     starting = 1
     res = String[]
     while true
-        location = search(where, what, starting)
+        location = _search(where, what, starting)
         isempty(location) && return break
         push!(res,where[location])
         numfinds += 1
