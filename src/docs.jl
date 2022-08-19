@@ -17,9 +17,9 @@ function getalldocs(m)
     return vcat(thedocs,map(x->alldocs(eval(m,x)),submodules(m))...)
 end
 
-# Note: this test for Void is a workaround for a bug
+# Note: this test for Nothing is a workaround for a bug
 function _findtypes(docs,thetype::DataType)
-    inds = find(x -> !isa(x,Void) && isa(eval(docs[1].meta[:binding].mod,x.meta[:binding].var),thetype) , docs)
+    inds = find(x -> !isa(x, Nothing) && isa(eval(docs[1].meta[:binding].mod, x.meta[:binding].var), thetype) , docs)
     return inds
 end
 

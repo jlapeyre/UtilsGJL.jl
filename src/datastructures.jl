@@ -77,11 +77,11 @@ Pass the keys and values of `d` as the two arrays to `arrcountmap`.
 arrcountmap(d::AbstractDict) = arrcountmap(keys(d),values(d))
 
 """
-    subst!(arr, from, to)::Void
+    subst!(arr, from, to)::Nothing
 
 Substitute each occurrence of `from` in the values of collection `arr` with `to`.
 """
-function subst!(arr, from, to)::Void
+function subst!(arr, from, to)::Nothing
     for i in linearindices(arr)
     @inbounds if arr[i] == from
             arr[i] = to
@@ -90,11 +90,11 @@ function subst!(arr, from, to)::Void
 end
 
 """
-    subst!(d::AbstractDict, from, to)::Void
+    subst!(d::AbstractDict, from, to)::Nothing
 
 Substitute each occurrence of `from` in the values of `d` with `to`.
 """
-function subst!(d::AbstractDict, from, to)::Void
+function subst!(d::AbstractDict, from, to)::Nothing
     for (k, v) in d
         if d[k] == from
             d[k] = to
